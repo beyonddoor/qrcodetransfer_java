@@ -12,6 +12,7 @@ import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.WebcamMotionDetector;
 import com.github.sarxos.webcam.WebcamMotionEvent;
 import com.github.sarxos.webcam.WebcamMotionListener;
+
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.LuminanceSource;
 import com.google.zxing.MultiFormatReader;
@@ -23,18 +24,24 @@ import com.google.zxing.common.HybridBinarizer;
 
 public class GUIReader implements WebcamMotionListener {
 	String old_text;
+
 	public GUIReader() {
 		old_text = "";
-		WebcamMotionDetector detector = new WebcamMotionDetector(Webcam.getDefault());
-		detector.setInterval(500); // one check per 500 ms
+
+		Webcam.getWebcams();
+
+		var webCamera = Webcam.getDefault();
+		WebcamMotionDetector detector = new WebcamMotionDetector(webCamera);
+		// one check per 500 ms
+		detector.setInterval(500);
 		detector.addMotionListener(this);
 		detector.start();
 	}
 
 	@Override
 	public void motionDetected(WebcamMotionEvent wme) {
-		
-		//System.out.println("Change");
+		System.out.println("Change");
+
 		// get default webcam and open it
 		Webcam webcam = Webcam.getDefault();
 		webcam.open();
@@ -48,7 +55,7 @@ public class GUIReader implements WebcamMotionListener {
 	
 			try {
 				//PrintWriter out = new PrintWriter("C:\\Users\\brad\\fileRecieved.txt");
-				PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("C:\\Users\\brad\\fileRecieved.txt", true)));
+				PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("fileRecieved.txt", true)));
 				out.print(text);
 				System.out.println(text);
 				out.close();
@@ -60,11 +67,9 @@ public class GUIReader implements WebcamMotionListener {
 				e.printStackTrace();
 			}
 		}
-		
 	}
 
 	  private static String getDecodeText(BufferedImage image) {
-	    
 	    LuminanceSource source = new BufferedImageLuminanceSource(image);
 	    BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
 	    Result result;

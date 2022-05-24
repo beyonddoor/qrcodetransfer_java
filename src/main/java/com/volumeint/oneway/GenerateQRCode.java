@@ -24,12 +24,8 @@ public class GenerateQRCode {
      * @throws IOException
      */
     public static void main(String[] args) throws WriterException, IOException {
-        String qrCodeText = "http://www.journaldev.com";
-        String filePath = "C:\\Users\\brad\\JD.png";
-        int size = 125;
-        String fileType = "png";
-        File qrFile = new File(filePath);
-        //createQRImage(qrFile, qrCodeText, size, fileType);
+        var image = createQRImage("hello", 64);
+        ImageIO.write(image, "png", new File("test.png"));
         System.out.println("DONE");
     }
  

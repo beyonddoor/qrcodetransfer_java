@@ -42,7 +42,6 @@ public final class GUIPlayer extends JFrame {
 
 	  public static void main(String[] args) throws WriterException, IOException, InterruptedException {
 	    GUIPlayer runner = new GUIPlayer();
-	    GenerateQRCode generate = new GenerateQRCode();
 	    runner.setVisible(true);
 	    String qrCodeText = "http://www.volumeintigration.com";
         String filePath = "filetosend.txt";
@@ -51,14 +50,12 @@ public final class GUIPlayer extends JFrame {
         // 4296 characters allowed
         File fileToSend = new File(filePath);
         qrCodeText = readFile(filePath);
-        
-        
-        
+
         String[] textArray = splitStringEvery(qrCodeText, 100);
         
         for (String s : textArray) {
         
-        	BufferedImage image  = generate.createQRImage(s, size);
+        	BufferedImage image  = GenerateQRCode.createQRImage(s, size);
 
         	runner.imageLabel.setIcon(new ImageIcon(image));
         	Thread.sleep(1000);
